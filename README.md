@@ -2,17 +2,19 @@
 
 
 
-Generate tiniJava parser:
 
-```bash
-cd tiniJavaParser/
-javacc ../tiniJava.jj 
-```
 
 Generate syntax tree and visitor class
 
 ```bash
 java -jar jtb132.jar tiniJava.jj
+```
+
+Generate tiniJava parser:
+
+```bash
+cd tiniJavaParser/
+javacc ../jtb.out.jj
 ```
 
 

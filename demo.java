@@ -28,12 +28,12 @@ public class demo {
 
             // 3) Parse the top-level nonterminal S()
             //    S is the root AST node type for your grammar
-            parser.S();
+            S rootnode=parser.S();
             System.out.println("Parse successful!");
-
+            
             // 4) Create and run a custom visitor
-            //MyVisitor visitor = new MyVisitor();
-            //root.accept(visitor);
+            MyVisitor visitor = new MyVisitor();
+            rootnode.accept(visitor);
 
         } catch (IOException e) {
             e.printStackTrace();
