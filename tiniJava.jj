@@ -7,6 +7,9 @@ options {
 // Parser class wrapper
 // ------------------------------------------------------
 PARSER_BEGIN(tiniJavaParser)
+
+package tiniJavaParser;
+
 public class tiniJavaParser {
     public static void main(String[] args) {
         try {
