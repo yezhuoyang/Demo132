@@ -1,0 +1,79 @@
+options {
+  STATIC = false;               // Generate a non-static parser
+  NODE_DEFAULT_VOID = true;     // By default, each production is an AST node
+}
+
+// ------------------------------------------------------
+// Parser class wrapper
+// ------------------------------------------------------
+PARSER_BEGIN(tiniJavaParser)
+public class tiniJavaParser {
+    public static void main(String[] args) {
+        try {
+            tiniJavaParser parser = new tiniJavaParser(System.in);
+            parser.S();  // Parse the start nonterminal
+            System.out.println("Parse successful!");
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+}
+PARSER_END(tiniJavaParser)
+
+// ------------------------------------------------------
+// LEXER: skip whitespace and define tokens
+// ------------------------------------------------------
+SKIP : {
+  " " | "\t" | "\n" | "\r"
+}
+
+TOKEN : {
+  < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LPAREN: "(" >
+| < RPAREN: ")" >
+| < SEMICOLON: ";" >
+| < NOT: "!" >
+| < TRUE: "true" >
+| < FALSE: "false" >
+| < IF: "if" >
+| < ELSE: "else" >
+| < WHILE: "while" >
+| < SYSTEM_OUT_PRINTLN: "System.out.println" >
+}
+
+// ------------------------------------------------------
+// PARSER PRODUCTIONS
+// ------------------------------------------------------
+
+// S ::= { L } 
+//     | System.out.println ( E ) ;
+//     | if ( E ) S else S 
+//     | while ( E ) S
+void S() : {}
+{
+  (
+    <LBRACE> L() <RBRACE>
+  | <SYSTEM_OUT_PRINTLN> <LPAREN> E() <RPAREN> <SEMICOLON>
+  | <IF> <LPAREN> E() <RPAREN> S() <ELSE> S()
+  | <WHILE> <LPAREN> E() <RPAREN> S()
+  )
+}
+
+// L ::= S L | ϵ, equivalently, L::=S*
+void L()  : {}
+{
+( S() )*
+}
+
+// E ::= true 
+//     | false 
+//     | ! E
+void E()  : {}
+{
+  
+    <TRUE>
+  | <FALSE>
+  | <NOT> E()
+  
+}
